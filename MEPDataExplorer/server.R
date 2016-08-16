@@ -13,6 +13,7 @@ library(synapseClient)
 synapseLogin()
 
 source("load.R")
+source("lib.R")
 
 # Define server logic required to draw a histogram
 shinyServer(function(input, output) {
