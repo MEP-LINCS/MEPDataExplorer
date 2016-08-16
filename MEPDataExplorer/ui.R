@@ -18,8 +18,8 @@ shinyUI(fluidPage(
   # Sidebar with a slider input for number of bins 
   sidebarLayout(
     sidebarPanel(
-       selectInput("cell_line", label = 'Cell Line', choices = c("MCF10A"), selected = "MCF10A"),
-       selectInput("cell_line", label = 'Cell Line', choices = c("SS1", "SS2", "SS3", "SS4", "Combined"), selected = "Combined")
+       selectInput("cell_line", label = 'Cell Line', choices = c("MCF10A", "HMEC122L", "HMEC240L"), selected = "MCF10A"),
+       selectInput("staining_set", label = 'Staining Set', choices = c("SS1", "SS2", "SS3", "SS4", "Combined"), selected = "Combined")
     ),
     
     # Show a plot of the generated distribution
