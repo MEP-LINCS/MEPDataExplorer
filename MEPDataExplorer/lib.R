@@ -10,6 +10,7 @@ firstPlot <- function(dt) {
   
   p <- p + guides(fill=FALSE) + xlab("Ligand") + ylab("Normalized EdU+")
   p <- p + ggtitle("MEP EdU+ Response by Ligand")
+  p <- p + theme_bw()
   p <- p + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1, 
                                             size=rel(1)), #, colour=textColourVec), 
                  axis.text.y = element_text(angle = 0, vjust = 0.5, hjust=1, 
