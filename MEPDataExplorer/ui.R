@@ -25,8 +25,8 @@ shinyUI(fluidPage(
     # Show a plot of the generated distribution
     mainPanel(
       tabsetPanel(
-        tabPanel("First Plot", plotOutput("firstPlot")),
-        tabPanel("Second Plot", plotlyOutput("secondPlot"))
+        tabPanel("Box Plot", plotOutput("firstPlot")),
+        tabPanel("Scatter Plot", plotlyOutput("secondPlot"))
     )
   )
 )))
