@@ -1,10 +1,10 @@
 firstPlot <- function(dt) {
   p <- ggplot(dt, aes(x=reorder(Ligand, 
-                                Nuclei_CP_AreaShape_AreaLog2RUV3, 
-                                #Nuclei_PA_Gated_EdUPositiveProportionLogitRUV3LoessBacktransformed,
+                                #Nuclei_CP_AreaShape_AreaLog2RUV3, 
+                                Nuclei_PA_Gated_EdUPositiveProportionLogitRUV3LoessBacktransformed,
                                 FUN=median), 
-                      y=Nuclei_CP_AreaShape_AreaLog2RUV3,
-                      #y=Nuclei_PA_Gated_EdUPositiveProportionLogitRUV3LoessBacktransformed,
+                      #y=Nuclei_CP_AreaShape_AreaLog2RUV3,
+                      y=Nuclei_PA_Gated_EdUPositiveProportionLogitRUV3LoessBacktransformed,
                       fill=Ligand))
   p <- p + geom_boxplot(outlier.colour = NA, alpha=.5)
   p <- p + geom_jitter(aes(colour=ECMp),size=rel(.1),alpha=.5)
@@ -22,8 +22,8 @@ firstPlot <- function(dt) {
   p
 }
 
-plot2 <- function(dt) {
-  p <- ggplot(dt, aes(x=Nuclei_PA_Gated_EdUPositiveProportionLogitRUV3Loess, 
+secondPlot <- function(dt) {
+  p <- ggplot(dt, aes(x=Nuclei_PA_Gated_EdUPositiveProportionLogitRUV3LoessBacktransformed, 
                       y=Cytoplasm_CP_Intensity_MedianIntensity_KRT5Log2RUV3Loess,
                       colour=Ligand, text=paste("ECMp:",ECMp)))
   p <- p + geom_point(alpha=.4)

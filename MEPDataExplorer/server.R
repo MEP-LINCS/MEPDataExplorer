@@ -21,4 +21,8 @@ shinyServer(function(input, output) {
     firstPlot(dt)
   })
   
+  output$secondPlot <- renderPlotly({
+    secondPlot(dt)
+  })
+  
 })
