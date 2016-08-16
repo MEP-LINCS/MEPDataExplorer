@@ -1,8 +1,9 @@
 firstPlot <- function(dt) {
-  p <- ggplot(dt, aes(x=reorder(Ligand, 
-                                #Nuclei_CP_AreaShape_AreaLog2RUV3, 
-                                Nuclei_PA_Gated_EdUPositiveProportionLogitRUV3LoessBacktransformed,
-                                FUN=median), 
+  dt$Ligand <- reorder(dt$Ligand,
+                       dt$Nuclei_PA_Gated_EdUPositiveProportionLogitRUV3LoessBacktransformed,
+                       FUN=median)
+  
+  p <- ggplot(dt, aes(x=Ligand, 
                       #y=Nuclei_CP_AreaShape_AreaLog2RUV3,
                       y=Nuclei_PA_Gated_EdUPositiveProportionLogitRUV3LoessBacktransformed))
   p <- p + geom_boxplot(outlier.colour = NA, alpha=.5)
