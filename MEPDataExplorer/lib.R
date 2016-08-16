@@ -4,20 +4,20 @@ firstPlot <- function(dt) {
                                 Nuclei_PA_Gated_EdUPositiveProportionLogitRUV3LoessBacktransformed,
                                 FUN=median), 
                       #y=Nuclei_CP_AreaShape_AreaLog2RUV3,
-                      y=Nuclei_PA_Gated_EdUPositiveProportionLogitRUV3LoessBacktransformed,
-                      fill=Ligand))
+                      y=Nuclei_PA_Gated_EdUPositiveProportionLogitRUV3LoessBacktransformed))
   p <- p + geom_boxplot(outlier.colour = NA, alpha=.5)
-  p <- p + geom_jitter(aes(colour=ECMp),size=rel(.1),alpha=.5)
+  p <- p + geom_jitter(size=rel(0.2),alpha=.5)
   
-  p <- p + guides(fill=FALSE, colour=FALSE) + xlab("Ligand") + ylab("Normalized EdU+")
+  p <- p + guides(fill=FALSE) + xlab("Ligand") + ylab("Normalized EdU+")
   p <- p + ggtitle("MEP EdU+ Response by Ligand")
   p <- p + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1, 
-                                            size=rel(.7)), #, colour=textColourVec), 
+                                            size=rel(1)), #, colour=textColourVec), 
                  axis.text.y = element_text(angle = 0, vjust = 0.5, hjust=1, 
-                                            size=rel(1)), 
-                 plot.title = element_text(size = rel(1)),
-                 legend.text=element_text(size = rel(1)),
-                 legend.title=element_text(size = rel(1)))
+                                            size=rel(2.25)), 
+                 plot.title = element_text(size = rel(1.5)),
+                 legend.position="top",
+                 legend.text=element_text(size = rel(1.5)),
+                 legend.title=element_text(size = rel(1.5)))
   
   p
 }
