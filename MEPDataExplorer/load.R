@@ -2,11 +2,17 @@
 
 # df <- synGet("syn7122655")
 # 
-# dt <- fread(getFileLocation(df), data.table=FALSE)
+# d <- fread(getFileLocation(df), data.table=FALSE)
 
 q <- sprintf('select id,versionLabel,CellLine,Level from file where parentId=="syn5713302" AND Level==4 AND StainingSet=="SSC"')
 dataFiles <- synQuery(q)
 
+annotTable <- synTableQuery("SELECT Category,MetadataTerm FROM syn5662377")
+ligandTable <- annotTable@values %>% filter(Category == "Ligand")
+ligands <- ligandTable$MetadataTerm
+
+ecmpTable <- annotTable@values %>% filter(Category == "ECMp")
+ecmps <- ecmpTable$MetadataTerm
 
 curatedFeatures <- fread(getFileLocation(synGet('syn7187256')))
 

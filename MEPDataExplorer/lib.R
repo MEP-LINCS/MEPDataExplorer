@@ -33,7 +33,14 @@ scatterPlot <- function(dt, x, y, color) {
   colorFeat <- curatedFeatures %>% filter(FeatureName == color)
   
   #textAes <- paste("ECMp:",dt$ECMp)
-  p <- ggplot(dt, aes_string(x=x, y=y, colour=color)) #, text=textAes))
+  
+  if (length(unique(dt[, colorFeat$FeatureName])) < 8) {
+    p <- ggplot(dt, aes_string(x=x, y=y, colour=color)) #, text=textAes))
+    p <- p + scale_color_brewer(palette="Set1")
+  }
+  else {
+    p <- ggplot(dt, aes_string(x=x, y=y)) #, text=textAes))
+  }
   p <- p + geom_point(alpha=.4)
   p <- p + guides(colour=FALSE, size=FALSE)
   p <- p + xlab(xFeat$DisplayName) + ylab(yFeat$DisplayName)

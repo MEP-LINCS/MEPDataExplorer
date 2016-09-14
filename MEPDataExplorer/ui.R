@@ -15,6 +15,21 @@ shinyUI(fluidPage(
       # uiOutput('staining_set_ctrls'),
       actionButton("updateButton", "Update"),
       hr(),
+      selectInput("filter_by", label = 'Filter by', 
+                  choices = c("None", "Ligand", "ECMp")),
+
+      conditionalPanel("input.filter_by=='Ligand'",
+                       selectInput('filterList', label='Ligands',
+                                   choices=ligands, 
+                                   selectize = TRUE, 
+                                   multiple = TRUE)),
+      
+      conditionalPanel("input.filter_by=='ECMp'",
+                       selectInput('filterList', label='ECMp',
+                                   choices=ecmps, 
+                                   selectize = TRUE, 
+                                   multiple = TRUE)),
+      
       uiOutput('plotParams')
     ),
     

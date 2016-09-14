@@ -19,7 +19,6 @@ getData <- function(dataFiles, cellLine){
   
   dt <- fread(getFileLocation(df), sep="\t", data.table=FALSE)
     
-  print(dim(dt))
   dt
 }
 
@@ -49,12 +48,26 @@ shinyServer(function(input, output) {
     message=sprintf("Getting %s data...", input$cell_line))
   })
   
+  filteredData <- reactive({
+    d <- data()
+    
+    if (input$filter_by != "None") {
+      k <- d[[input$filter_by]] %in% input$filterList
+      d <- d[k, ]
+      d <- d %>% droplevels()
+      print(input$filter_by)
+      print(length(unique(d[, input$filter_by])))
+    }
+    
+    d
+  })
+  
   output$boxPlot <- renderPlot({
     validate(
       need(input$updateButton > 0, "Please set options and click 'Update'.")
     )
     
-    d <- data()
+    d <- filteredData()
     xAxis <- input$boxplot_x
     yAxis <- input$boxplot_y
     
@@ -79,10 +92,11 @@ shinyServer(function(input, output) {
     validate(
       need(input$updateButton > 0, "Please set options and click 'Update'.")
     )
-    d <- data()
+
+    d <- filteredData()
     xAxis <- input$scatterplot_x
     yAxis <- input$scatterplot_y
-    color <- input$scatterplot_color
+    color <- input$filter_by
     
     scatterPlot(d, x=xAxis, y=yAxis, color=color)
   })
@@ -116,10 +130,8 @@ shinyServer(function(input, output) {
            selectInput("scatterplot_x", label = 'X-axis', 
                        choices = curatedFeaturesList),
            selectInput("scatterplot_y", label = 'Y-axis', 
-                       choices = curatedFeaturesList),
-           selectInput("scatterplot_color", label = 'Color', 
-                       choices = c("Ligand", "ECMp"))
-      )
+                       choices = curatedFeaturesList)
+           )
       
     }
   })
