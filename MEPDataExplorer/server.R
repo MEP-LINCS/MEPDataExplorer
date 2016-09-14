@@ -1,14 +1,3 @@
-library(data.table)
-library(dplyr)
-library(memoise)
-library(shiny)
-library(shinydashboard)
-library(synapseClient)
-synapseLogin()
-
-source("load.R")
-source("lib.R")
-
 getData <- function(dataFiles, cellLine){
   
   res <- dataFiles %>% 
