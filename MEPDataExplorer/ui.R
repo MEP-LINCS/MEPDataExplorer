@@ -19,13 +19,13 @@ shinyUI(fluidPage(
                   choices = c("None", "Ligand", "ECMp")),
 
       conditionalPanel("input.filter_by=='Ligand'",
-                       selectInput('filterList', label='Ligands',
+                       selectInput('filterListLigand', label='Ligands',
                                    choices=ligands, 
                                    selectize = TRUE, 
                                    multiple = TRUE)),
       
       conditionalPanel("input.filter_by=='ECMp'",
-                       selectInput('filterList', label='ECMp',
+                       selectInput('filterListECMp', label='ECMp',
                                    choices=ecmps, 
                                    selectize = TRUE, 
                                    multiple = TRUE)),

@@ -41,7 +41,10 @@ shinyServer(function(input, output) {
     d <- data()
     
     if (input$filter_by != "None") {
-      k <- d[[input$filter_by]] %in% input$filterList
+      input_filter_by <- sprintf('filterList%s', input$filter_by)
+      foo <- input[[input_filter_by]]
+      print(foo)
+      k <- d[[foo]] %in% input$filterList
       d <- d[k, ]
       d <- d %>% droplevels()
       print(input$filter_by)
@@ -59,6 +62,7 @@ shinyServer(function(input, output) {
     d <- filteredData()
     xAxis <- input$boxplot_x
     yAxis <- input$boxplot_y
+    filterBy <- input$filter_by
     
     boxPlot(d, x=xAxis, y=yAxis)
   })
