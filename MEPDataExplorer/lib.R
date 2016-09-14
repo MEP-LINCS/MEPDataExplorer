@@ -1,14 +1,17 @@
-boxPlot <- function(dt, y='Spot_PA_SpotCellCountLog2') {
+boxPlot <- function(dt, x='Ligand', y='Spot_PA_SpotCellCountLog2') {
   
-  dt$Ligand <- reorder(dt$Ligand,
-                       dt[[y]],
-                       FUN=median)
+  xFeat <- curatedFeatures %>% filter(FeatureName == x)
+  yFeat <- curatedFeatures %>% filter(FeatureName == y)
   
-  p <- ggplot(dt, aes_string(x='Ligand', y=y))
+  dt[x] <- reorder(dt[[x]],
+                   dt[[y]],
+                   FUN=median)
+  
+  p <- ggplot(dt, aes_string(x=x, y=y))
   p <- p + geom_boxplot(outlier.colour = NA, alpha=.5)
-  p <- p + geom_jitter(aes(color=StainingSet), size=rel(0.2),alpha=.5)
+  p <- p + geom_jitter(size=rel(0.2),alpha=.5)
   
-  p <- p + xlab("Ligand")#  + ylab("Normalized EdU+")
+  p <- p + xlab(xFeat$DisplayName) + ylab(yFeat$DisplayName)
   
   p <- p + theme_bw()
   p <- p + theme(axis.text.x = element_text(angle = 270, vjust = 0.5, hjust=0, 
@@ -23,11 +26,17 @@ boxPlot <- function(dt, y='Spot_PA_SpotCellCountLog2') {
   p
 }
 
-scatterPlot <- function(dt, x, y) {
-  textAes <- paste("ECMp:",dt$ECMp)
-  p <- ggplot(dt, aes_string(x=x, y=y, colour='Ligand')) #, text=textAes))
+scatterPlot <- function(dt, x, y, color) {
+  
+  xFeat <- curatedFeatures %>% filter(FeatureName == x)
+  yFeat <- curatedFeatures %>% filter(FeatureName == y)
+  colorFeat <- curatedFeatures %>% filter(FeatureName == color)
+  
+  #textAes <- paste("ECMp:",dt$ECMp)
+  p <- ggplot(dt, aes_string(x=x, y=y, colour=color)) #, text=textAes))
   p <- p + geom_point(alpha=.4)
   p <- p + guides(colour=FALSE, size=FALSE)
+  p <- p + xlab(xFeat$DisplayName) + ylab(yFeat$DisplayName)
   p <- p + theme(axis.text.x = element_text(angle = 0, vjust = 0.5, hjust=1, size=rel(1)), 
                  axis.text.y = element_text(angle = 0, vjust = 0.5, hjust=1, size=rel(1)), 
                  plot.title = element_text(size = rel(1)),

@@ -9,19 +9,24 @@ shinyUI(fluidPage(
   # Sidebar with a slider input for number of bins 
   sidebarLayout(
     sidebarPanel(
-       selectInput("cell_line", label = 'Cell Line', 
-                   choices = c("MCF10A", "HMEC122L", "HMEC240L"), selected = "MCF10A"),
-       uiOutput('staining_set_ctrls'),
-       actionButton("updateButton", "Update"),
-       hr(),
-       uiOutput('plotParams')
+      helpText("Display measurements from MEPs."),
+      selectInput("cell_line", label = 'Cell Line', 
+                  choices = c("MCF10A", "HMEC122L", "HMEC240L"), selected = "MCF10A"),
+      # uiOutput('staining_set_ctrls'),
+      actionButton("updateButton", "Update"),
+      hr(),
+      uiOutput('plotParams')
     ),
     
     # Show a plot of the generated distribution
     mainPanel(
       tabsetPanel(id="tabs",
-        tabPanel("Box Plot", value="box", plotOutput("boxPlot")),
-        tabPanel("Scatter Plot", value="scatter", plotlyOutput("scatterPlot"))
+                  tabPanel("Box Plot", value="box", 
+                           plotOutput("boxPlot"),
+                           htmlOutput('boxPlotInfo')),
+                  tabPanel("Scatter Plot", value="scatter", 
+                           plotlyOutput("scatterPlot"),
+                           textOutput('scatterPlotInfo'))
+      )
     )
-  )
 )))

@@ -11,7 +11,8 @@ print(p)
 
 
 
-p <- ggplot(dt, aes(x=Nuclei_PA_Gated_EdUPositiveProportionLogitRUV3Loess, y=Cytoplasm_CP_Intensity_MedianIntensity_KRT5Log2RUV3Loess, colour=Ligand, text=paste("ECMp:",ECMp)))+
+p <- ggplot(dt, aes(x=Nuclei_PA_Gated_EdUPositiveProportionLogitRUV3LoessBacktransformed, 
+                    y=Cytoplasm_CP_Intensity_MedianIntensity_KRT5Log2RUV3Loess, colour=Ligand, text=paste("ECMp:",ECMp)))+
   geom_point(alpha=.4)+
   guides(colour=FALSE, size=FALSE)+
   xlab("Normalized EdU+\n(Logit)")+ylab("Normalized KRT5\n(Log2)")+

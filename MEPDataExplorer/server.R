@@ -12,12 +12,12 @@ source("lib.R")
 getData <- function(dataFiles, cellLine){
   
   res <- dataFiles %>% 
-    dplyr::filter(file.CellLine == cellLine, file.StainingSet == "SSC") %>% 
+    dplyr::filter(file.CellLine == cellLine) %>% 
     head(1)
   
   df <- synGet(res$file.id)
   
-  dt <- fread(getFileLocation(df), data.table=FALSE)
+  dt <- fread(getFileLocation(df), sep="\t", data.table=FALSE)
     
   print(dim(dt))
   dt
@@ -34,14 +34,14 @@ shinyServer(function(input, output) {
   data <- eventReactive(input$updateButton, {
     withProgress({
       cellLine <- input$cell_line
-      stainingSet <- input$staining_set
+      # stainingSet <- input$staining_set
       
       dt <- memoizeGetData_(dataFiles, cellLine)
       
-      if (stainingSet != "SSC") {
-        dt <- dt %>% 
-          dplyr::filter(StainingSet == stainingSet)
-      }
+      # if (stainingSet != "SSC") {
+      #   dt <- dt %>% 
+      #     dplyr::filter(StainingSet == stainingSet)
+      # }
       
       dt
       
@@ -55,10 +55,23 @@ shinyServer(function(input, output) {
     )
     
     d <- data()
+    xAxis <- input$boxplot_x
     yAxis <- input$boxplot_y
     
+    boxPlot(d, x=xAxis, y=yAxis)
+  })
+
+  output$boxPlotInfo <- renderUI({
+    validate(
+      need(input$updateButton > 0, "")
+    )
     
-    boxPlot(d, yAxis)
+    xFeat <- curatedFeatures %>% filter(FeatureName == input$boxplot_x)
+    yFeat <- curatedFeatures %>% filter(FeatureName == input$boxplot_y)
+
+    HTML(sprintf("X-axis (%s): %s<br/>Y-axis (%s): %s<br/>", 
+                 xFeat$DisplayName, xFeat$Description, 
+                 yFeat$DisplayName, yFeat$Description))
   })
   
   output$scatterPlot <- renderPlotly({
@@ -67,39 +80,45 @@ shinyServer(function(input, output) {
       need(input$updateButton > 0, "Please set options and click 'Update'.")
     )
     d <- data()
-    yAxis <- input$scatterplot_y
     xAxis <- input$scatterplot_x
+    yAxis <- input$scatterplot_y
+    color <- input$scatterplot_color
     
-    scatterPlot(d, xAxis, yAxis)
+    scatterPlot(d, x=xAxis, y=yAxis, color=color)
   })
   
-  output$staining_set_ctrls <- renderUI({
-    cellLine <- input$cell_line
-    
-    filteredDataFiles <- dataFiles %>% filter(file.CellLine == cellLine)
-    stainingSets <- c(filteredDataFiles$file.StainingSet)
-    
-    #names(stainingSets) <- paste("Staining Set", stainingSets)
-    
-    selectInput("staining_set", label = 'Staining Set', 
-                choices = stainingSets, 
-                selected = "SSC")
-  })
+  # output$staining_set_ctrls <- renderUI({
+  #   cellLine <- input$cell_line
+  #   
+  #   filteredDataFiles <- dataFiles %>% filter(file.CellLine == cellLine)
+  #   stainingSets <- c(filteredDataFiles$file.StainingSet)
+  #   
+  #   #names(stainingSets) <- paste("Staining Set", stainingSets)
+  #   
+  #   selectInput("staining_set", label = 'Staining Set', 
+  #               choices = stainingSets, 
+  #               selected = "SSC")
+  # })
   
   output$plotParams <- renderUI({
     
     if (input$tabs == 'box') {
       list(h4("Boxplot Parameters"),
+           selectInput("boxplot_x", label = 'X-axis', 
+                       choices = curatedFeaturesListBoxX),
            selectInput("boxplot_y", label = 'Y-axis', 
-                       choices = boxPlot_yVars, selected = boxPlot_yVars[1])
+                       choices = curatedFeaturesList)
+           
       )
     } 
     else if (input$tabs == "scatter") {
       list(h4("Scatterplot Parameters"),
            selectInput("scatterplot_x", label = 'X-axis', 
-                       choices = scatterPlot_xyVars, selected = scatterPlot_xyVars[1]),
+                       choices = curatedFeaturesList),
            selectInput("scatterplot_y", label = 'Y-axis', 
-                       choices = scatterPlot_xyVars, selected = scatterPlot_xyVars[2])
+                       choices = curatedFeaturesList),
+           selectInput("scatterplot_color", label = 'Color', 
+                       choices = c("MEP", "Ligand", "ECMp"))
       )
       
     }
