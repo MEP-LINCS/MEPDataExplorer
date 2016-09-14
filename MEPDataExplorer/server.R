@@ -118,7 +118,7 @@ shinyServer(function(input, output) {
            selectInput("scatterplot_y", label = 'Y-axis', 
                        choices = curatedFeaturesList),
            selectInput("scatterplot_color", label = 'Color', 
-                       choices = c("MEP", "Ligand", "ECMp"))
+                       choices = c("Ligand", "ECMp"))
       )
       
     }
