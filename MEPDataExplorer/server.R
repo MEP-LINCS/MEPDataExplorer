@@ -134,15 +134,17 @@ shinyServer(function(input, output) {
     else if (input$tabs == "scatter") {
       plotParams <- list(h4("Scatterplot Parameters"),
                          selectInput("scatterplot_x", label = 'X-axis', 
-                                     choices = curatedFeaturesList),
+                                     choices = curatedFeaturesList,
+                                     selected='Spot_PA_SpotCellCountLog2RUVLoess'),
                          selectInput("scatterplot_y", label = 'Y-axis', 
-                                     choices = curatedFeaturesList)
+                                     choices = curatedFeaturesList,
+                                     selected="Nuclei_PA_Gated_EdUPositiveProportionLogitRUVLoess")
       )
       
     }
     
     plotParams[['colorby']]<- selectInput('color_by', 'Color (if < 8 selected)', 
-                                          choices=c("ECM Proteins"="ECMp", "Ligands"="Ligand"))
+                                          choices=c("Ligands"="Ligand", "ECM Proteins"="ECMp"))
     
     plotParams
   })
