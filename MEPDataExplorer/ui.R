@@ -26,6 +26,8 @@ shinyUI(fluidPage(
                   selectize = TRUE, 
                   multiple = TRUE),
       
+      hr(),
+      
       uiOutput('plotParams')
     ),
     
