@@ -1,17 +1,31 @@
-firstPlot <- function(dt) {
-  p <- ggplot(dt, aes(x=reorder(Ligand, 
-                                #Nuclei_CP_AreaShape_AreaLog2RUV3, 
-                                Nuclei_PA_Gated_EdUPositiveProportionLogitRUV3LoessBacktransformed,
-                                FUN=median), 
-                      #y=Nuclei_CP_AreaShape_AreaLog2RUV3,
-                      y=Nuclei_PA_Gated_EdUPositiveProportionLogitRUV3LoessBacktransformed))
-  p <- p + geom_boxplot(outlier.colour = NA, alpha=.5)
-  p <- p + geom_jitter(size=rel(0.2),alpha=.5)
+cbbPalette <- c("#000000", "#E69F00", "#56B4E9", "#009E73", 
+                "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
+
+boxPlot <- function(dt, x, y, color) {
   
-  p <- p + guides(fill=FALSE) + xlab("Ligand") + ylab("Normalized EdU+")
-  p <- p + ggtitle("MEP EdU+ Response by Ligand")
+  xFeat <- curatedFeatures %>% filter(FeatureName == x)
+  yFeat <- curatedFeatures %>% filter(FeatureName == y)
+  colorFeat <- curatedFeatures %>% filter(FeatureName == color)
+  
+  dt[x] <- reorder(dt[[x]],
+                   dt[[y]],
+                   FUN=median)
+  
+  p <- ggplot(dt, aes_string(x=x, y=y))
+  p <- p + geom_boxplot(outlier.colour = NA, alpha=.5)
+  
+  if (length(unique(dt[, color])) <= 8) {
+    p <- p + geom_jitter(aes_string(color=color), size=rel(0.2),alpha=.5)
+    p <- p + scale_color_manual(values=cbbPalette)
+  }
+  else {
+    p <- p + geom_jitter(size=rel(0.2),alpha=.5)
+  }
+  
+  p <- p + xlab(xFeat$DisplayName) + ylab(yFeat$DisplayName)
+  
   p <- p + theme_bw()
-  p <- p + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1, 
+  p <- p + theme(axis.text.x = element_text(angle = 270, vjust = 0.5, hjust=0, 
                                             size=rel(1)), #, colour=textColourVec), 
                  axis.text.y = element_text(angle = 0, vjust = 0.5, hjust=1, 
                                             size=rel(2.25)), 
@@ -23,18 +37,36 @@ firstPlot <- function(dt) {
   p
 }
 
-secondPlot <- function(dt) {
-  p <- ggplot(dt, aes(x=Nuclei_PA_Gated_EdUPositiveProportionLogitRUV3LoessBacktransformed, 
-                      y=Cytoplasm_CP_Intensity_MedianIntensity_KRT5Log2RUV3Loess,
-                      colour=Ligand, text=paste("ECMp:",ECMp)))
+scatterPlot <- function(dt, x, y, color) {
+  
+  xFeat <- curatedFeatures %>% filter(FeatureName == x)
+  yFeat <- curatedFeatures %>% filter(FeatureName == y)
+  colorFeat <- curatedFeatures %>% filter(FeatureName == color)
+  
+  dt$textAes <- sprintf("ECMp: %s, Ligand: %s", dt$ECMp, dt$Ligand)
+  
+  if (length(unique(dt[, color])) <= 8) {
+    p <- ggplot(dt, aes_string(x=x, y=y, colour=color, text='textAes'))
+    p <- p + scale_color_manual(values=cbbPalette)
+  }
+  else {
+    p <- ggplot(dt, aes_string(x=x, y=y, text='textAes'))
+  }
   p <- p + geom_point(alpha=.4)
-  p <- p + guides(colour=FALSE, size=FALSE) + xlab("Normalized EdU+\n(Logit)") + ylab("Normalized KRT5\n(Log2)")
-  p <- p + ggtitle("MEP KRT5 vs Proliferation")
+  p <- p + guides(colour=FALSE, size=FALSE)
+  p <- p + xlab(xFeat$DisplayName) + ylab(yFeat$DisplayName)
   p <- p + theme(axis.text.x = element_text(angle = 0, vjust = 0.5, hjust=1, size=rel(1)), 
                  axis.text.y = element_text(angle = 0, vjust = 0.5, hjust=1, size=rel(1)), 
                  plot.title = element_text(size = rel(1)),
                  legend.text=element_text(size = rel(1)),
+                 legend.position="top",
                  legend.title=element_text(size = rel(1)))
   ggplotly(p)
+  
+}
+
+btLogit <- function(x){
+  
+  2^x/(1+2^x)
   
 }

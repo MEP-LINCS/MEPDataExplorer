@@ -1,2 +1,12 @@
-source("lib.R")
 library('plotly')
+library('ggplot2')
+library(data.table)
+library(dplyr)
+library(memoise)
+library(shiny)
+library(shinydashboard)
+library(synapseClient)
+synapseLogin()
+
+source("load.R")
+source("lib.R")
