@@ -1,3 +1,6 @@
+cbbPalette <- c("#000000", "#E69F00", "#56B4E9", "#009E73", 
+                "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
+
 boxPlot <- function(dt, x, y, color) {
   
   xFeat <- curatedFeatures %>% filter(FeatureName == x)
@@ -11,9 +14,9 @@ boxPlot <- function(dt, x, y, color) {
   p <- ggplot(dt, aes_string(x=x, y=y))
   p <- p + geom_boxplot(outlier.colour = NA, alpha=.5)
   
-  if (length(unique(dt[, color])) < 8) {
+  if (length(unique(dt[, color])) <= 8) {
     p <- p + geom_jitter(aes_string(color=color), size=rel(0.2),alpha=.5)
-    p <- p + scale_color_brewer(palette="Set1")
+    p <- p + scale_color_manual(values=cbbPalette)
   }
   else {
     p <- p + geom_jitter(size=rel(0.2),alpha=.5)
@@ -42,9 +45,9 @@ scatterPlot <- function(dt, x, y, color) {
   
   #textAes <- paste("ECMp:",dt$ECMp)
   
-  if (length(unique(dt[, color])) < 8) {
+  if (length(unique(dt[, color])) <= 8) {
     p <- ggplot(dt, aes_string(x=x, y=y, colour=color)) #, text=textAes))
-    p <- p + scale_color_brewer(palette="Set1")
+    p <- p + scale_color_manual(values=cbbPalette)
   }
   else {
     p <- ggplot(dt, aes_string(x=x, y=y)) #, text=textAes))
