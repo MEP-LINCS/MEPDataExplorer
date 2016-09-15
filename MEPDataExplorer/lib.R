@@ -64,3 +64,9 @@ scatterPlot <- function(dt, x, y, color) {
   ggplotly(p)
   
 }
+
+btLogit <- function(x){
+  
+  2^x/(1+2^x)
+  
+}
