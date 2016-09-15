@@ -13,7 +13,7 @@ shinyUI(fluidPage(
       selectInput("cell_line", label = 'Cell Line', 
                   choices = c("MCF10A", "HMEC122L", "HMEC240L"), selected = "MCF10A"),
       # uiOutput('staining_set_ctrls'),
-      actionButton("updateButton", "Update"),
+      actionButton("updateButton", "Get Data"),
       hr(),
 
       selectInput('filterListLigand', label='Select Ligands',
