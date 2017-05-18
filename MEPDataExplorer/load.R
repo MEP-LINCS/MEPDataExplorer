@@ -4,8 +4,8 @@
 # 
 # d <- fread(getFileLocation(df), data.table=FALSE)
 
-q <- sprintf('select id,versionLabel,CellLine,Level from file where parentId=="syn5713302" AND Level==4 AND StainingSet=="SSC"')
-dataFiles <- synQuery(q)
+q <- sprintf("select id,CellLine,Level from syn9838977 WHERE Level='4' AND StainingSet='SSC'")
+dataFiles <- synTableQuery(q)@values
 
 annotTable <- synTableQuery("SELECT Category,MetadataTerm FROM syn5662377")
 ligandTable <- annotTable@values %>% filter(Category == "Ligand")
