@@ -5,18 +5,23 @@
 # d <- fread(getFileLocation(df), data.table=FALSE)
 
 releaseManifestId <- 'syn9838977'
+curatedFeatureId <- 'syn8517301'
+curatedFeatureVersion <- '1'
+annotTableId <- 'syn5662377'
 q <- sprintf("select id,CellLine,Level from %s WHERE Level='4' AND StainingSet='SSC'",
              releaseManifestId)
 dataFiles <- synTableQuery(q)@values
 
-annotTable <- synTableQuery("SELECT Category,MetadataTerm FROM syn5662377")
+annotTable <- synTableQuery(sprintf("SELECT Category,MetadataTerm FROM %s", annotTableId))
 ligandTable <- annotTable@values %>% filter(Category == "Ligand")
 ligands <- ligandTable$MetadataTerm
 
 ecmpTable <- annotTable@values %>% filter(Category == "ECMp")
 ecmps <- ecmpTable$MetadataTerm
 
-curatedFeatures <- fread(getFileLocation(synGet('syn7187256', version = 3)))
+curatedFeatures <- synGet(curatedFeatureId, version = curatedFeatureVersion) %>% 
+  getFileLocation() %>% 
+  fread(data.table=FALSE)
 
 curatedFeaturesBoxX <- curatedFeatures %>% 
   filter(FeatureName %in% c("Ligand", "ECMp"))
