@@ -1,10 +1,10 @@
 getData <- function(dataFiles, cellLine){
   
   res <- dataFiles %>% 
-    dplyr::filter(file.CellLine == cellLine) %>% 
+    dplyr::filter(CellLine == cellLine) %>% 
     head(1)
   
-  df <- synGet(res$file.id)
+  df <- synGet(res$id)
   
   dt <- fread(getFileLocation(df), sep="\t", data.table=FALSE)
     
