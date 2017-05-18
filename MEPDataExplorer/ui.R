@@ -11,7 +11,7 @@ shinyUI(fluidPage(
     sidebarPanel(
       helpText("Display measurements from MEPs."),
       selectInput("cell_line", label = 'Cell Line', 
-                  choices = c("MCF10A", "HMEC122L", "HMEC240L"), selected = "MCF10A"),
+                  choices = dataFiles$CellLine, selected = dataFiles$CellLine[1]),
       # uiOutput('staining_set_ctrls'),
       actionButton("updateButton", "Get Data"),
       hr(),
