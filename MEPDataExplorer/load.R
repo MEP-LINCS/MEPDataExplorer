@@ -21,7 +21,9 @@ ecmps <- ecmpTable$MetadataTerm
 
 curatedFeatures <- synGet(curatedFeatureId, version = curatedFeatureVersion) %>% 
   getFileLocation() %>% 
-  fread(data.table=FALSE)
+  fread(data.table=FALSE)%>% 
+  rename(FeatureName=Binding_CP, DisplayName=Name)
+
 
 curatedFeaturesBoxX <- curatedFeatures %>% 
   filter(FeatureName %in% c("Ligand", "ECMp"))
