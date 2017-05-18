@@ -16,7 +16,7 @@ ligands <- ligandTable$MetadataTerm
 ecmpTable <- annotTable@values %>% filter(Category == "ECMp")
 ecmps <- ecmpTable$MetadataTerm
 
-curatedFeatures <- fread(getFileLocation(synGet('syn7187256')))
+curatedFeatures <- fread(getFileLocation(synGet('syn7187256', version = 3)))
 
 curatedFeaturesBoxX <- curatedFeatures %>% 
   filter(FeatureName %in% c("Ligand", "ECMp"))
