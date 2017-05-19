@@ -64,3 +64,9 @@ scatterPlot <- function(dt, x, y, color) {
   ggplotly(p)
   
 }
+
+logistic <- function(x, b=2){
+  
+  b^x / (1 + b^x)
+  
+}

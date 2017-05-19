@@ -6,7 +6,8 @@ getData <- function(dataFiles, cellLine){
   
   df <- synGet(res$id)
   
-  dt <- fread(getFileLocation(df), sep="\t", data.table=FALSE)
+  dt <- fread(getFileLocation(df), sep="\t", data.table=FALSE) %>% 
+    dplyr::mutate_each(funs(logistic), contains("Logit"))
     
   dt
 }
