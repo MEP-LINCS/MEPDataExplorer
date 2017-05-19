@@ -4,9 +4,13 @@
 # 
 # d <- fread(getFileLocation(df), data.table=FALSE)
 
-releaseManifestId <- 'syn9838977'
+releaseManifestId <- 'syn7494072'
 curatedFeatureId <- 'syn8517301'
 curatedFeatureVersion <- '1'
+
+curatedFeatureId <- 'syn7826686'
+curatedFeatureVersion <- '6'
+
 annotTableId <- 'syn5662377'
 q <- sprintf("select id,CellLine,Level from %s WHERE Level='4' AND StainingSet='SSC'",
              releaseManifestId)
