@@ -1,7 +1,7 @@
-getData <- function(dataFiles, cellLine){
+getData <- function(dataFiles, study){
   
   res <- dataFiles %>% 
-    dplyr::filter(CellLine == cellLine) %>% 
+    dplyr::filter(Study == study) %>% 
     head(1)
   
   df <- synGet(res$id)
@@ -21,20 +21,14 @@ shinyServer(function(input, output) {
   
   data <- eventReactive(input$updateButton, {
     withProgress({
-      cellLine <- input$cell_line
-      # stainingSet <- input$staining_set
-      
-      dt <- memoizeGetData_(dataFiles, cellLine)
-      
-      # if (stainingSet != "SSC") {
-      #   dt <- dt %>% 
-      #     dplyr::filter(StainingSet == stainingSet)
-      # }
+      study <- input$study
+
+      dt <- memoizeGetData_(dataFiles, study)
       
       dt
       
     }, 
-    message=sprintf("Getting %s data...", input$cell_line))
+    message=sprintf("Getting %s data...", input$study))
   })
   
   filteredData <- reactive({
@@ -125,9 +119,11 @@ shinyServer(function(input, output) {
     if (input$tabs == 'box') {
       plotParams <- list(h4("Boxplot Parameters"),
                          selectInput("boxplot_x", label = 'X-axis', 
-                                     choices = curatedFeaturesListBoxX),
+                                     choices = curatedFeaturesListBoxX,
+                                     selected = "Ligand"),
                          selectInput("boxplot_y", label = 'Y-axis', 
-                                     choices = curatedFeaturesList)
+                                     choices = curatedFeaturesList,
+                                     selected = "Spot_PA_SpotCellCount")
            
       )
     } 

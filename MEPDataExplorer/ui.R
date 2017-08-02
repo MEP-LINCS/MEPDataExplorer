@@ -10,9 +10,8 @@ shinyUI(fluidPage(
   sidebarLayout(
     sidebarPanel(
       helpText("Display measurements from MEPs."),
-      selectInput("cell_line", label = 'Cell Line', 
-                  choices = dataFiles$CellLine, selected = dataFiles$CellLine[1]),
-      # uiOutput('staining_set_ctrls'),
+      selectInput("study", label = 'Study', 
+                  choices = dataFiles$Study, selected = dataFiles$Study[1]),
       actionButton("updateButton", "Get Data"),
       hr(),
 

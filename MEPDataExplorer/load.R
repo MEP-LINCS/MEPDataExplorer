@@ -1,18 +1,12 @@
 # Requires synapseClient to be loaded, from server.R
 
-# df <- synGet("syn7122655")
-# 
-# d <- fread(getFileLocation(df), data.table=FALSE)
 
-releaseManifestId <- 'syn7494072'
-curatedFeatureId <- 'syn8517301'
-curatedFeatureVersion <- '1'
-
+releaseManifestId <- 'syn9612057'
 curatedFeatureId <- 'syn7826686'
-curatedFeatureVersion <- '6'
+curatedFeatureVersion <- '8'
 
 annotTableId <- 'syn5662377'
-q <- sprintf("select id,CellLine,Level from %s WHERE Level='4' AND StainingSet='SSC'",
+q <- sprintf("select id,Study,CellLine,Level from %s WHERE Level='4'",
              releaseManifestId)
 dataFiles <- synTableQuery(q)@values
 
