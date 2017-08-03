@@ -136,7 +136,7 @@ shinyServer(function(input, output) {
                                      selected='Spot_PA_SpotCellCount'),
                          selectInput("scatterplot_y", label = 'Y-axis', 
                                      choices = curatedFeaturesList,
-                                     selected="Spot_PA_SpotCellCount")
+                                     selected="Nuclei_CP_Intensity_MedianIntensity_Dapi")
       )
       
     }
