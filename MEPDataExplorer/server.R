@@ -24,7 +24,7 @@ shinyServer(function(input, output) {
       study <- input$study
 
       dt <- memoizeGetData_(dataFiles, study)
-      
+   
       dt
       
     }, 
@@ -68,7 +68,7 @@ shinyServer(function(input, output) {
     
     xFeat <- curatedFeatures %>% filter(FeatureName == input$boxplot_x)
     yFeat <- curatedFeatures %>% filter(FeatureName == input$boxplot_y)
-
+    
     HTML(sprintf("X-axis (%s): %s<br/>Y-axis (%s): %s<br/>", 
                  xFeat$DisplayName, xFeat$Description, 
                  yFeat$DisplayName, yFeat$Description))
@@ -117,6 +117,7 @@ shinyServer(function(input, output) {
   output$plotParams <- renderUI({
     
     if (input$tabs == 'box') {
+      curatedFeaturesList <- curatedFeaturesList[curatedFeaturesList %in% colnames(data())]
       plotParams <- list(h4("Boxplot Parameters"),
                          selectInput("boxplot_x", label = 'X-axis', 
                                      choices = curatedFeaturesListBoxX,
@@ -128,13 +129,14 @@ shinyServer(function(input, output) {
       )
     } 
     else if (input$tabs == "scatter") {
+      curatedFeaturesList <- curatedFeaturesList[curatedFeaturesList %in% colnames(data())]
       plotParams <- list(h4("Scatterplot Parameters"),
                          selectInput("scatterplot_x", label = 'X-axis', 
                                      choices = curatedFeaturesList,
-                                     selected='Spot_PA_SpotCellCountLog2RUVLoess'),
+                                     selected='Spot_PA_SpotCellCount'),
                          selectInput("scatterplot_y", label = 'Y-axis', 
                                      choices = curatedFeaturesList,
-                                     selected="Nuclei_PA_Gated_EdUPositiveProportionLogitRUVLoess")
+                                     selected="Spot_PA_SpotCellCount")
       )
       
     }
