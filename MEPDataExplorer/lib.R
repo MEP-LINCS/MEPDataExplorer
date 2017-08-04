@@ -61,6 +61,7 @@ scatterPlot <- function(dt, x, y, color) {
                  legend.text=element_text(size = rel(1)),
                  legend.position="top",
                  legend.title=element_text(size = rel(1)))
-  ggplotly(p)
+p
+
   
 }

@@ -37,7 +37,7 @@ shinyUI(fluidPage(
                            plotOutput("boxPlot"),
                            htmlOutput('boxPlotInfo')),
                   tabPanel("Scatter Plot", value="scatter", 
-                           plotlyOutput("scatterPlot", width = "100%", height = "100%"),
+                           plotlyOutput("scatterPlot", width = "100%", height = "600px"),
                            htmlOutput('scatterPlotInfo'))
       )
     )
