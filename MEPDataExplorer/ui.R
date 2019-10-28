@@ -3,6 +3,12 @@ library(shiny)
 # Define UI for application that draws a histogram
 shinyUI(fluidPage(
   
+  tags$head(
+    singleton(
+      includeScript("www/readCookie.js")
+    )
+  ),
+  
   # Application title
   titlePanel("MEP-LINCS Data Explorer"),
   
