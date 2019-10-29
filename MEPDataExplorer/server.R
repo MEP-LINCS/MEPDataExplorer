@@ -14,7 +14,7 @@ getData <- function(dataFiles, cellLine){
 memoizeGetData_ <- memoize(getData)
 
 # Define server logic required to draw a histogram
-shinyServer(function(input, output) {
+shinyServer(function(input, output, session) {
   
   #dataList <- reactiveValues()
   #dataList[['data']] <- NULL
