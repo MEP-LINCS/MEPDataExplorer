@@ -3,6 +3,12 @@ library(shiny)
 # Define UI for application that draws a histogram
 shinyUI(fluidPage(
   
+  tags$head(
+    singleton(
+      includeScript("www/readCookie.js")
+    )
+  ),
+  
   # Application title
   titlePanel("MEP-LINCS Data Explorer"),
   
@@ -16,15 +22,9 @@ shinyUI(fluidPage(
       actionButton("updateButton", "Get Data"),
       hr(),
 
-      selectInput('filterListLigand', label='Select Ligands',
-                  choices=ligands, 
-                  selectize = TRUE, 
-                  multiple = TRUE),
+      uiOutput('filterLigands'),
       
-      selectInput('filterListECMp', label='Select ECM Proteins',
-                  choices=ecmps, 
-                  selectize = TRUE, 
-                  multiple = TRUE),
+      uiOutput('filterECMp'),
       
       hr(),
       
