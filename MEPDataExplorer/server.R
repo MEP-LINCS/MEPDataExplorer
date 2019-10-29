@@ -20,7 +20,7 @@ shinyServer(function(input, output) {
   #dataList[['data']] <- NULL
   
   session$sendCustomMessage(type="readCookie", message=list())
-  
+
   ## Show message if user is not logged in to synapse
   unauthorized <- observeEvent(input$authorized, {
     showModal(
@@ -30,9 +30,9 @@ shinyServer(function(input, output) {
       )
     )
   })
-  
+
   foo <- observeEvent(input$cookie, {
-    
+
     synLogin(sessionToken=input$cookie)
     source("load.R")
     
@@ -84,6 +84,21 @@ shinyServer(function(input, output) {
       boxPlot(d, x=xAxis, y=yAxis, color=color)
     })
   
+    output$filterLigands <- renderUI({
+      selectInput('filterListLigand', label='Select Ligands',
+                  choices=ligands, 
+                  selectize = TRUE, 
+                  multiple = TRUE)
+    })
+    
+    output$filterECMp <- renderUI({
+      selectInput('filterListECMp', label='Select ECM Proteins',
+                  choices=ecmps, 
+                  selectize = TRUE, 
+                  multiple = TRUE)
+    })
+    
+    
     output$boxPlotInfo <- renderUI({
       validate(
         need(input$updateButton > 0, "")

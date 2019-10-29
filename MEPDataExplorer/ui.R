@@ -22,15 +22,9 @@ shinyUI(fluidPage(
       actionButton("updateButton", "Get Data"),
       hr(),
 
-      selectInput('filterListLigand', label='Select Ligands',
-                  choices=ligands, 
-                  selectize = TRUE, 
-                  multiple = TRUE),
+      uiOutput('filterLigands'),
       
-      selectInput('filterListECMp', label='Select ECM Proteins',
-                  choices=ecmps, 
-                  selectize = TRUE, 
-                  multiple = TRUE),
+      uiOutput('filterECMp'),
       
       hr(),
       
